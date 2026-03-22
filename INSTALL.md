@@ -131,7 +131,7 @@ rsync -a --delete ~/local-workflow/project/.trellis/ /path/to/target-project/.tr
 - If only some markers exist, stop and ask for manual cleanup or confirmation.
 - Never delete the target project's `.trellis` directory as part of a normal update.
 - Never use `rsync --delete` for a normal update.
-- Any local-only skill or patch playbook must stay outside this repository, for example in an external DdV folder that is not tracked by git.
+- Any local-only skill or patch playbook for this repository must stay under `~/local-workflow/dev/` and must not be copied into `skills/` or `project/.trellis/`.
 - `.trellis/.developer` is developer-local state and should not be shipped into target projects.
 
 ---
