@@ -12,7 +12,7 @@ It is meant to be used in the same style as:
 ## One prompt to copy for AI
 
 ```text
-Fetch and follow instructions from ~/local-workflow/INSTALL.md.
+Fetch and follow instructions from https://raw.githubusercontent.com/beilo/local-workflow/refs/heads/master/INSTALL.md.
 First detect whether the current project already has local-workflow installed.
 Use these markers in the project root for detection: .trellis/.version, .trellis/.template-hashes.json, and .trellis/workflow.md.
 If all markers exist, run the update flow.
@@ -58,7 +58,7 @@ Use this only when all three markers are missing.
 1. Clone this repository:
 
    ```bash
-   git clone <your-local-workflow-repo-url> ~/local-workflow
+   git clone https://github.com/beilo/local-workflow.git ~/local-workflow
    ```
 
 2. Create the global skills symlink once:

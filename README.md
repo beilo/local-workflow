@@ -22,7 +22,7 @@
 直接发送：
 
 ```text
-Fetch and follow instructions from ~/local-workflow/INSTALL.md
+Fetch and follow instructions from https://raw.githubusercontent.com/beilo/local-workflow/refs/heads/master/INSTALL.md
 ```
 
 该入口会先检测当前项目状态，再自动决定走 install 还是 update：
