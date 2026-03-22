@@ -1,0 +1,19 @@
+{
+  ".trellis/.version": "2bf80b4612e1eb3ba5f7ce20eab3eff8bfc463d1f3d94b4337de5350b8ea550f",
+  ".trellis/workflow.md": "ba4a8c9de60ee41324c66564984e68bc5884499086e6169acb9f4a5cf0f14ec6",
+  ".agents/skills/before-dev/SKILL.md": "90a88505adb868ef4abee4d06b080d9a5f792d6561c7d5b13a017a5a9367adb9",
+  ".agents/skills/brainstorm/SKILL.md": "5b70fe06b11bfde60c2a0beea264d5e018582a7cd0361fd725c5a748035fba6a",
+  ".agents/skills/check-dev/SKILL.md": "a90fee88ea488e4579d5b1d45bdf6b930502a622a9ec96d828b6a09d396611da",
+  ".agents/skills/executing-plans/SKILL.md": "6d38ec1c6d2849652268ed5975629357a1427c48ad0c9217fd312488194b6cab",
+  ".agents/skills/finish-work/SKILL.md": "ace47ff32b85963f854dcc0c29ef35027a6d5a56ca8361630a5661f4ac6bcd48",
+  ".agents/skills/start/SKILL.md": "a97024e7b0da1ad36735222f029538d901f8e34826a62c063aaa76a7dc20b5a8",
+  ".agents/skills/start/assets/prd-template.md": "91fc2cdae2592e32758f8b1bf7aafab3983e4ae1983c02eafda112f9e032174b",
+  ".agents/skills/start/assets/notes-template.md": "514b01a2881c4191a875e305b869fbcdba9c1b51e0f80ee7fbf025fa880fcbf0",
+  ".agents/skills/subagent-driven-development/SKILL.md": "d32d28c9c4d1382b563af225bc11ef8a10b5c9ecec6041737674872881b5e56e",
+  ".agents/skills/trellis-local/SKILL.md": "9b28bcf55fd779e21bbcf7ab8c2534861f4d9ec25f2a3bdfb4b22b22d769acc3",
+  ".agents/skills/trellis-local/PATCH-PLAYBOOK.md": "082bec8adf5021840d68144c4aec11129c984c9112043e8d80f98a793761e352",
+  ".agents/skills/writing-plans/SKILL.md": "a10d2d8fbc90a0e34a66b577e844b5f4d4828d777217fe3af5055c12e561b829",
+  ".agents/skills/writing-plans/assets/plan-template.md": "f77498a863e4d1a15c9f195148ec5138407d1c7389403ea6a63246df9acf2f14",
+  ".trellis/tasks/00-bootstrap-guidelines/prd.md": "e22b94d4e730817f5422771f05320ede1fd829914e1bd0fd4e632e3a1df41089",
+  ".trellis/tasks/00-bootstrap-guidelines/notes.md": "65e3ee9de160e0ac5f8f0310186cb9f34fbc3342f9b2d6cc0ea56661a1352603"
+}
