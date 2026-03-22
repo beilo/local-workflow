@@ -32,7 +32,6 @@ This repo is used in three parts:
 
 - `~/local-workflow/skills/` — global skill source for Codex
 - `~/local-workflow/project/.trellis/` — files to merge into a target project root
-- `trellis-local` — local-only skill for the developer machine; keep it only in the global skills source and do not copy it into the target project
 
 ---
 
@@ -132,7 +131,7 @@ rsync -a --delete ~/local-workflow/project/.trellis/ /path/to/target-project/.tr
 - If only some markers exist, stop and ask for manual cleanup or confirmation.
 - Never delete the target project's `.trellis` directory as part of a normal update.
 - Never use `rsync --delete` for a normal update.
-- `trellis-local` stays in the global skills source only.
+- Any local-only skill or patch playbook must stay outside this repository, for example in an external DdV folder that is not tracked by git.
 - `.trellis/.developer` is developer-local state and should not be shipped into target projects.
 
 ---
@@ -148,7 +147,7 @@ You should see:
 
 - a symlink under `~/.agents/skills/` pointing to `~/local-workflow/skills`
 - a `.trellis/` directory inside the target project root
-- no `trellis-local` content copied into the project `.trellis/`
+- no local-only private content copied into the project `.trellis/`
 
 ---
 

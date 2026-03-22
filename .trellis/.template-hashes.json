@@ -10,8 +10,6 @@
   ".agents/skills/start/assets/prd-template.md": "91fc2cdae2592e32758f8b1bf7aafab3983e4ae1983c02eafda112f9e032174b",
   ".agents/skills/start/assets/notes-template.md": "514b01a2881c4191a875e305b869fbcdba9c1b51e0f80ee7fbf025fa880fcbf0",
   ".agents/skills/subagent-driven-development/SKILL.md": "d32d28c9c4d1382b563af225bc11ef8a10b5c9ecec6041737674872881b5e56e",
-  ".agents/skills/trellis-local/SKILL.md": "9b28bcf55fd779e21bbcf7ab8c2534861f4d9ec25f2a3bdfb4b22b22d769acc3",
-  ".agents/skills/trellis-local/PATCH-PLAYBOOK.md": "082bec8adf5021840d68144c4aec11129c984c9112043e8d80f98a793761e352",
   ".agents/skills/writing-plans/SKILL.md": "a10d2d8fbc90a0e34a66b577e844b5f4d4828d777217fe3af5055c12e561b829",
   ".agents/skills/writing-plans/assets/plan-template.md": "f77498a863e4d1a15c9f195148ec5138407d1c7389403ea6a63246df9acf2f14",
   ".trellis/tasks/00-bootstrap-guidelines/prd.md": "e22b94d4e730817f5422771f05320ede1fd829914e1bd0fd4e632e3a1df41089",

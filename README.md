@@ -4,7 +4,7 @@
 
 ## 结构
 
-- `skills/`：全局技能源
+- `skills/`：公开分发的全局技能源
 - `project/.trellis/`：分发到目标项目根目录的 `.trellis` 基线
 - `INSTALL.md`：唯一安装/更新入口
 
@@ -12,7 +12,8 @@
 
 - `skills/` 通过 symlink 挂到 `~/.agents/skills/`
 - `project/.trellis/` 通过 `rsync` 合并到目标项目
-- `trellis-local` 只保留在本地 skills 源，不进入目标项目
+- 本地私有 skill、补丁手册和开发者专用材料不得进入本仓库
+- 本地私有内容应放在仓库外部的 DdV 目录，不纳入 git
 - `.trellis/.developer` 属于开发者本地状态，不进入目标项目
 
 ## 给 AI 的单入口
