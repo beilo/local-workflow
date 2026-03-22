@@ -6,8 +6,7 @@
 
 - `skills/`：全局技能源
 - `project/.trellis/`：分发到目标项目根目录的 `.trellis` 基线
-- `INSTALL.md`：人工安装与更新说明
-- `AI_INSTALL_UPDATE_PROMPTS.md`：给其他 AI 直接复制执行的单入口提示词
+- `INSTALL.md`：唯一安装/更新入口
 
 ## 设计约束
 
@@ -16,39 +15,12 @@
 - `trellis-local` 只保留在本地 skills 源，不进入目标项目
 - `.trellis/.developer` 属于开发者本地状态，不进入目标项目
 
-## 首次安装
-
-参考：`INSTALL.md`
-
-核心形式：
-
-```bash
-mkdir -p ~/.agents/skills
-ln -s ~/local-workflow/skills ~/.agents/skills/local-workflow
-mkdir -p /path/to/target-project/.trellis
-rsync -a ~/local-workflow/project/.trellis/ /path/to/target-project/.trellis/
-```
-
-## 后续更新
-
-参考：`INSTALL.md`
-
-核心形式：
-
-```bash
-cd ~/local-workflow && git pull
-rsync -ani ~/local-workflow/project/.trellis/ /path/to/target-project/.trellis/
-rsync -a ~/local-workflow/project/.trellis/ /path/to/target-project/.trellis/
-```
-
-正常更新默认不用 `--delete`。
-
 ## 给 AI 的单入口
 
 直接发送：
 
 ```text
-Fetch and follow instructions from ~/local-workflow/AI_INSTALL_UPDATE_PROMPTS.md
+Fetch and follow instructions from ~/local-workflow/INSTALL.md
 ```
 
 该入口会先检测当前项目状态，再自动决定走 install 还是 update：
@@ -62,3 +34,12 @@ Fetch and follow instructions from ~/local-workflow/AI_INSTALL_UPDATE_PROMPTS.md
 - `.trellis/.version`
 - `.trellis/.template-hashes.json`
 - `.trellis/workflow.md`
+
+## 更新基线时
+
+如果你修改了仓库根目录下的 `.trellis/` 源文件，需要重新生成发布副本：
+
+```bash
+cd ~/local-workflow
+rsync -a --delete --exclude '.developer' .trellis/ project/.trellis/
+```
