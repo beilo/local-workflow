@@ -1,164 +1,179 @@
-# local-workflow install/update instructions
+# local-workflow 安装 / 更新说明
 
-This is the single entrypoint for both humans and AI.
-It handles detection first, then chooses install or update.
+这是人和 AI 共用的单一入口。
+先检测，再决定执行 install 还是 update。
 
-It is meant to be used in the same style as:
+使用方式与下面这种入口提示一致：
 
 `Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.codex/INSTALL.md`
 
 ---
 
-## One prompt to copy for AI
+## 给 AI 复制的单条提示
 
 ```text
 Fetch and follow instructions from https://raw.githubusercontent.com/beilo/local-workflow/refs/heads/master/INSTALL.md.
 First detect whether the current project already has local-workflow installed.
-Use these markers in the project root for detection: .trellis/.version, .trellis/.template-hashes.json, and .trellis/workflow.md.
-If all markers exist, run the update flow.
-If all markers are missing, run the install flow.
-If only some markers exist, stop and report an inconsistent local-workflow state instead of guessing.
+Use these markers in the project root for detection: .trellis/.version and .trellis/workflow.md.
+If both markers exist, run the update flow.
+If both markers are missing, run the install flow.
+If only one marker exists, stop and report an inconsistent local-workflow state instead of guessing.
+When syncing .trellis, always use the rsync exclude file at ~/local-workflow/dev/trellis-local/rsync-excludes.txt.
 When running update, always run a dry-run first with rsync -ani and report which files would change before running the real sync.
 Never delete the target project's .trellis directory as part of a normal update.
 Never use rsync --delete for a normal update.
-Use rsync --delete only when explicitly asked to force the target project to mirror ~/local-workflow/project/.trellis exactly.
+Use rsync --delete only when explicitly asked to force the target project to mirror ~/local-workflow/.trellis exactly, while still honoring the rsync exclude file.
 ```
 
 ---
 
-## Layout
+## 布局
 
-This repo is used in three parts:
+本仓库只保留两份可分发源：
 
-- `~/local-workflow/skills/` — global skill source for Codex
-- `~/local-workflow/project/.trellis/` — files to merge into a target project root
+- `~/local-workflow/skills/`：Codex 的全局技能源
+- `~/local-workflow/.trellis/`：合并到目标项目根目录的项目基线
+
+同步 `.trellis/` 时，统一使用：
+
+- `~/local-workflow/dev/trellis-local/rsync-excludes.txt`
+
+这份排除清单用于过滤开发者本地状态与临时文件。
 
 ---
 
-## Detection rules
+## 检测规则
 
-Treat the project as already installed only when all of these markers exist in the project root:
+只有目标项目根目录同时存在下面两个 marker，才视为已安装：
 
 - `.trellis/.version`
-- `.trellis/.template-hashes.json`
 - `.trellis/workflow.md`
 
-Decision table:
+判定表：
 
-- all markers exist -> update
-- all markers missing -> install
-- partial markers exist -> stop and report an inconsistent local-workflow state instead of guessing
+- 两个 marker 都存在 → update
+- 两个 marker 都不存在 → install
+- 只存在一部分 → 停止，并报告 local-workflow 状态不一致，不要猜测
 
 ---
 
-## First-time install flow
+## 首次安装流程
 
-Use this only when all three markers are missing.
+仅当两个 marker 都不存在时使用。
 
-1. Clone this repository:
+1. 克隆仓库：
 
    ```bash
    git clone https://github.com/beilo/local-workflow.git ~/local-workflow
    ```
 
-2. Create the global skills symlink once:
+2. 一次性创建全局 skills symlink：
 
    ```bash
    mkdir -p ~/.agents/skills
    ln -s ~/local-workflow/skills ~/.agents/skills/local-workflow
    ```
 
-3. Merge `.trellis/` into the target project root:
+3. 将 `.trellis/` 合并到目标项目根目录：
 
    ```bash
    mkdir -p /path/to/target-project/.trellis
-   rsync -a ~/local-workflow/project/.trellis/ /path/to/target-project/.trellis/
+   rsync -a --exclude-from ~/local-workflow/dev/trellis-local/rsync-excludes.txt ~/local-workflow/.trellis/ /path/to/target-project/.trellis/
    ```
 
-4. Restart Codex so the new skills are discovered.
+4. 重启 Codex，使新 skills 被重新发现。
 
-This flow is merge-based.
-It does not require deleting the existing project `.trellis/` first.
+这是基于合并的安装流程。
+正常安装不需要先删除目标项目现有的 `.trellis/`。
 
 ---
 
-## Update flow
+## 更新流程
 
-Use this only when all three markers already exist.
+仅当两个 marker 都已存在时使用。
 
-1. Update the local-workflow repo:
+1. 更新 local-workflow 仓库：
 
    ```bash
    cd ~/local-workflow && git pull
    ```
 
-2. Keep the existing skills symlink as-is.
+2. 保持已有的 skills symlink 不变。
 
-   If `~/.agents/skills/local-workflow` already points to `~/local-workflow/skills`, do nothing.
+   若 `~/.agents/skills/local-workflow` 已经指向 `~/local-workflow/skills`，不需要任何操作。
 
-3. Run a dry-run first:
-
-   ```bash
-   rsync -ani ~/local-workflow/project/.trellis/ /path/to/target-project/.trellis/
-   ```
-
-4. Merge the latest `.trellis/` files into the target project:
+3. 先执行 dry-run：
 
    ```bash
-   rsync -a ~/local-workflow/project/.trellis/ /path/to/target-project/.trellis/
+   rsync -ani --exclude-from ~/local-workflow/dev/trellis-local/rsync-excludes.txt ~/local-workflow/.trellis/ /path/to/target-project/.trellis/
    ```
 
-This updates shipped files in place and keeps project-local files that are not part of local-workflow.
+4. 再把最新 `.trellis/` 合并到目标项目：
+
+   ```bash
+   rsync -a --exclude-from ~/local-workflow/dev/trellis-local/rsync-excludes.txt ~/local-workflow/.trellis/ /path/to/target-project/.trellis/
+   ```
+
+这个流程会原地更新已分发文件，并保留目标项目里不属于 local-workflow 的项目本地文件。
 
 ---
 
-## When to use `--delete`
+## 何时使用 `--delete`
 
-Default updates should not use `--delete`.
+默认更新不要使用 `--delete`。
 
-Only use `--delete` when you intentionally want the target project's `.trellis/` to become an exact mirror of `~/local-workflow/project/.trellis/` and you have confirmed there is no project-specific content to keep.
+只有在你明确要让目标项目 `.trellis/` 精确镜像 `~/local-workflow/.trellis/`，并且已经确认没有项目本地内容需要保留时，才使用：
 
 ```bash
-rsync -a --delete ~/local-workflow/project/.trellis/ /path/to/target-project/.trellis/
+rsync -a --delete --exclude-from ~/local-workflow/dev/trellis-local/rsync-excludes.txt ~/local-workflow/.trellis/ /path/to/target-project/.trellis/
 ```
 
----
-
-## Hard guardrails
-
-- Never run install on a project that already contains all local-workflow markers.
-- Never run update on a project that contains none of the local-workflow markers.
-- If only some markers exist, stop and ask for manual cleanup or confirmation.
-- Never delete the target project's `.trellis` directory as part of a normal update.
-- Never use `rsync --delete` for a normal update.
-- Any local-only skill or patch playbook for this repository must stay under `~/local-workflow/dev/` and must not be copied into `skills/` or `project/.trellis/`.
-- `.trellis/.developer` is developer-local state and should not be shipped into target projects.
+即便是 force mirror，也必须继续使用排除清单，避免把开发者本地状态同步出去。
 
 ---
 
-## Verify
+## 硬性边界
+
+- 已安装项目上，禁止再跑 install。
+- 未安装项目上，禁止直接跑 update。
+- marker 只存在一部分时，必须先停下并报告异常状态。
+- 正常 update 期间，禁止删除目标项目整个 `.trellis/` 目录。
+- 正常 update 期间，禁止使用 `rsync --delete`。
+- 根目录 `.trellis/` 只放会被分发到目标项目的基线文件。
+- 本仓库私有说明、补丁手册和分发辅助文件必须留在 `~/local-workflow/dev/`，不得同步进目标项目。
+- `.trellis/.developer` 属于开发者本地状态，不得同步进目标项目。
+
+---
+
+## 验证
 
 ```bash
 ls -ld ~/.agents/skills/local-workflow
 find /path/to/target-project/.trellis -maxdepth 2 -type f | sort
 ```
 
-You should see:
+你应当看到：
 
-- a symlink under `~/.agents/skills/` pointing to `~/local-workflow/skills`
-- a `.trellis/` directory inside the target project root
-- no local-only private content copied into the project `.trellis/`
+- `~/.agents/skills/local-workflow` 正确指向 `~/local-workflow/skills`
+- 目标项目根目录里存在 `.trellis/`
+- 目标项目 `.trellis/` 中没有开发者本地状态文件
+
+首次安装完成后，优先处理：
+
+- `.trellis/tasks/00-bootstrap-guidelines/`
+
+这个任务用于把 `spec/` 从模板内容补齐为项目真实约定。
 
 ---
 
-## Uninstalling
+## 卸载
 
 ```bash
 rm ~/.agents/skills/local-workflow
 rm -rf /path/to/target-project/.trellis
 ```
 
-Optionally remove the clone:
+若还要删掉本地 clone：
 
 ```bash
 rm -rf ~/local-workflow

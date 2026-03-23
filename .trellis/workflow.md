@@ -5,7 +5,7 @@
 这套工作流现在是**纯 skills + 文件驱动**。
 
 不再依赖旧的脚本目录。
-任务状态和会话记录都直接写入文件。
+任务状态、验证结果和交接信息统一写入任务文件。
 
 ---
 
@@ -22,7 +22,8 @@
 |-- tasks/
 |   +-- <task-name>/
 |       |-- prd.md
-|       +-- notes.md
+|       |-- notes.md
+|       +-- plan.md
 ```
 
 ### 文件职责
@@ -55,7 +56,6 @@
 - 关键决策
 - 涉及文件
 - 风险与问题
-
 - 下一步
 - 交接备注
 - 已完成验证
@@ -76,6 +76,7 @@
    - `git log --oneline -10`
 5. 阅读 `.trellis/.developer`
 6. 在 `.trellis/tasks/` 下找到当前活跃的任务目录
+7. 若 `.trellis/spec/` 仍主要是模板内容，且 `00-bootstrap-guidelines` 未完成，优先处理该任务
 
 ---
 
@@ -92,11 +93,11 @@
 
 - `plan.md`
 
-参考模板：
+参考模板（安装路径）：
 
-- `.agents/skills/start/assets/prd-template.md`
-- `.agents/skills/start/assets/notes-template.md`
-- `.agents/skills/writing-plans/assets/plan-template.md`
+- `~/.agents/skills/local-workflow/start/assets/prd-template.md`
+- `~/.agents/skills/local-workflow/start/assets/notes-template.md`
+- `~/.agents/skills/local-workflow/writing-plans/assets/plan-template.md`
 
 ---
 
@@ -144,7 +145,8 @@
 ## 最佳实践
 
 1. 写代码前先读 spec
-2. 一个任务目录聚焦一个目标
-3. 保持 `notes.md` 简短且为最新
-4. 用 `notes.md` 承担状态与交接
-5. 优先用简单 shell 查看，而非自定义编排
+2. 首次接入项目时，优先完成 `00-bootstrap-guidelines`
+3. 一个任务目录聚焦一个目标
+4. 保持 `notes.md` 简短且为最新
+5. 用 `notes.md` 承担状态、验证与交接
+6. 优先用简单 shell 查看，而非自定义编排

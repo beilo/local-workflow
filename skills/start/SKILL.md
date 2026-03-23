@@ -40,6 +40,8 @@ name=<开发者名称>
 
 查看 `.trellis/tasks/`，确定用户要处理的任务目录。
 
+若 `spec/` 仍主要是模板内容，且 `00-bootstrap-guidelines` 未完成，优先把它视为当前任务。
+
 ## 若需要新任务
 
 在 `.trellis/tasks/` 下手动新建任务目录。

@@ -14,88 +14,125 @@ Trellis 版本：0.3.7
 
 ## 定制内容
 
+### 分发结构变更
+
+#### skills 目录
+
+- **文件**：`skills/`
+- **改动**：将仓库内技能源从 `.agents/skills/` 收敛到 `skills/`
+- **日期**：2026-03-23
+- **原因**：仓库目录直接对应分发源；安装时仍通过 `~/.agents/skills/local-workflow` 暴露给 Codex
+
+#### `.trellis/` 分发方式
+
+- **文件**：`.trellis/`
+- **改动**：改为唯一维护、唯一分发的项目基线
+- **日期**：2026-03-23
+- **原因**：移除发布副本后，避免双份维护漂移
+
+#### `project/.trellis`
+
+- **文件**：`project/.trellis/`
+- **改动**：从仓库中移除
+- **日期**：2026-03-23
+- **原因**：发布副本没有长期维护价值，且会引入同步成本
+
+#### `.template-hashes.json`
+
+- **文件**：`.trellis/.template-hashes.json`
+- **改动**：从仓库中移除
+- **日期**：2026-03-23
+- **原因**：当前没有任何自动逻辑消费这些 hash，只会增加检测与文档负担
+
+#### rsync 排除清单
+
+- **文件**：`dev/trellis-local/rsync-excludes.txt`
+- **改动**：新增分发排除清单
+- **日期**：2026-03-23
+- **原因**：从根目录 `.trellis/` 直接同步时，需要显式排除开发者本地状态与临时文件
+
 ### 已改动的技能
 
 #### before-dev
 
-- **文件**：`.agents/skills/before-dev/SKILL.md`
+- **文件**：`skills/before-dev/SKILL.md`
 - **目的**：将前后端开发前指南阅读合并为一个技能
 - **添加日期**：2026-03-20
 - **原因**：简化开始编码前的入口
 
 #### check-dev
 
-- **文件**：`.agents/skills/check-dev/SKILL.md`
+- **文件**：`skills/check-dev/SKILL.md`
 - **目的**：将前端、后端与跨层核对合并为一个技能
 - **添加日期**：2026-03-20
 - **原因**：实现后用一套技能做回顾，而非多套检查
 
 #### start
 
-- **文件**：`.agents/skills/start/SKILL.md`
+- **文件**：`skills/start/SKILL.md`
 - **改动**：改为纯文件驱动的会话入口技能
 - **日期**：2026-03-20
 - **原因**：不再依赖 Trellis 脚本与任务编排
 
 #### writing-plans
 
-- **文件**：`.agents/skills/writing-plans/SKILL.md`
+- **文件**：`skills/writing-plans/SKILL.md`
 - **改动**：本地化，将 `plan.md` 写入当前任务目录
 - **日期**：2026-03-21
 - **原因**：实施计划保留在 `.trellis/tasks/<task>/` 内
 
 #### executing-plans
 
-- **文件**：`.agents/skills/executing-plans/SKILL.md`
+- **文件**：`skills/executing-plans/SKILL.md`
 - **改动**：新增为可选的文档驱动执行器
 - **日期**：2026-03-21
 - **原因**：允许单会话从 `prd.md`、`plan.md` 或其他任务文档执行
 
 #### subagent-driven-development
 
-- **文件**：`.agents/skills/subagent-driven-development/SKILL.md`
+- **文件**：`skills/subagent-driven-development/SKILL.md`
 - **改动**：新增为可选的文档驱动子代理执行器
 - **日期**：2026-03-21
 - **原因**：支持高级执行模式，但不纳入默认流程
 
 #### record-session
 
-- **文件**：`.agents/skills/record-session/SKILL.md`
+- **文件**：`skills/record-session/SKILL.md`
 - **改动**：从项目工作流中移除
 - **日期**：2026-03-22
 - **原因**：不再单独维护会话日志，交接与验证直接收进 `notes.md`
 
 #### onboard
 
-- **文件**：`.agents/skills/onboard/SKILL.md`
+- **文件**：`skills/onboard/SKILL.md`
 - **改动**：从项目工作流中移除
 - **日期**：2026-03-20
 - **原因**：项目不再需要入职工作流
 
 #### create-command
 
-- **文件**：`.agents/skills/create-command/SKILL.md`
+- **文件**：`skills/create-command/SKILL.md`
 - **改动**：从项目工作流中移除
 - **日期**：2026-03-20
 - **原因**：项目不再需要技能创建工作流
 
 #### integrate-skill
 
-- **文件**：`.agents/skills/integrate-skill/SKILL.md`
+- **文件**：`skills/integrate-skill/SKILL.md`
 - **改动**：从项目工作流中移除
 - **日期**：2026-03-20
 - **原因**：项目不再需要技能集成工作流
 
 #### break-loop
 
-- **文件**：`.agents/skills/break-loop/SKILL.md`
+- **文件**：`skills/break-loop/SKILL.md`
 - **改动**：从项目工作流中移除
 - **日期**：2026-03-21
 - **原因**：深度缺陷分析不再作为独立工作流技能保留
 
 #### update-spec
 
-- **文件**：`.agents/skills/update-spec/SKILL.md`
+- **文件**：`skills/update-spec/SKILL.md`
 - **改动**：从项目工作流中移除
 - **日期**：2026-03-21
 - **原因**：Spec 维护改在日常工作中内联完成
@@ -128,9 +165,9 @@ Trellis 版本：0.3.7
 #### 技能资源模板
 
 - **文件**：
-  - `.agents/skills/start/assets/prd-template.md`
-  - `.agents/skills/start/assets/notes-template.md`
-  - `.agents/skills/writing-plans/assets/plan-template.md`
+  - `skills/start/assets/prd-template.md`
+  - `skills/start/assets/notes-template.md`
+  - `skills/writing-plans/assets/plan-template.md`
 - **改动**：在对应技能下增加文件模板
 - **日期**：2026-03-20
 - **原因**：符合技能目录规则，模板靠近工作流入口
@@ -143,7 +180,7 @@ Trellis 版本：0.3.7
 
 - 新增 `before-dev`
 - 新增 `check-dev`
-- 为 `prd.md`、`notes.md`、`journal.md` 新增技能资源模板
+- 为 `prd.md`、`notes.md` 新增技能资源模板
 - 移除 `before-frontend-dev`
 - 移除 `before-backend-dev`
 - 移除 `check-frontend`
@@ -169,3 +206,12 @@ Trellis 版本：0.3.7
 - 移除 `record-session`
 - 停止在活跃工作流中维护 `journal.md`
 - 扩充 `notes.md` 以承载交接、验证与提交信息
+
+### 2026-03-23
+
+- 将仓库内技能源从 `.agents/skills/` 收敛为 `skills/`
+- 移除 `project/.trellis/` 发布副本
+- 移除 `.trellis/.template-hashes.json`
+- 新增 `dev/trellis-local/rsync-excludes.txt`
+- 安装与更新改为直接从根目录 `.trellis/` 同步
+- 补强 `00-bootstrap-guidelines` 作为首次接入优先任务

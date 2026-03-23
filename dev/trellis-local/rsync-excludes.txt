@@ -1,0 +1,6 @@
+.developer
+*.tmp
+.backup-*
+*.new
+__pycache__/
+*.pyc

@@ -68,8 +68,8 @@ description: "头脑风暴 - 需求发现（面向 AI 编码增强）"
 
 模板参考：
 
-- `.agents/skills/start/assets/prd-template.md`
-- `.agents/skills/start/assets/notes-template.md`
+- `~/.agents/skills/local-workflow/start/assets/prd-template.md`
+- `~/.agents/skills/local-workflow/start/assets/notes-template.md`
 
 立即用已知信息创建/填充 `prd.md`：
 

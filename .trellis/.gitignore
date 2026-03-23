@@ -1,29 +1,15 @@
-# Developer identity (local only)
+# 开发者本地身份
 .developer
 
-# Current task pointer (each dev works on different task)
-.current-task
-
-# Ralph Loop state file
-.ralph-state.json
-
-# Agent runtime files
-.agents/
-.agent-log
-.session-id
-
-# Task directory runtime files
-.plan-log
-
-# Atomic update temp files
+# 临时文件
 *.tmp
 
-# Update backup directories
+# 更新备份目录
 .backup-*
 
-# Conflict resolution temp files
+# 冲突处理临时文件
 *.new
 
-# Python cache
+# Python 缓存
 **/__pycache__/
 **/*.pyc
