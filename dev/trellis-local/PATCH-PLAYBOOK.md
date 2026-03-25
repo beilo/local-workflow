@@ -160,7 +160,6 @@
 
 - 读 `workflow.md`
 - 读 spec
-- 读 `.trellis/.developer`
 - 读任务目录
 - 若 `spec/` 仍是模板内容，优先处理 `00-bootstrap-guidelines`
 - 新任务手动创建 `prd.md` 和 `notes.md`
@@ -210,7 +209,7 @@
 
 - 从 `~/local-workflow/skills/` 同步到目标项目 `skills/`
 - 从 `~/local-workflow/.trellis/` 同步到目标项目 `.trellis/`
-- 同步 `.trellis/` 时使用 `~/local-workflow/dev/trellis-local/rsync-excludes.txt` 排除开发者本地状态与临时文件
+- 同步 `.trellis/` 时使用 `~/local-workflow/dev/trellis-local/rsync-excludes.txt` 排除临时文件
 
 ### 六、实际文件状态
 
@@ -269,4 +268,4 @@
 
 以后如果要恢复或重放这次改造，直接把下面这段话发给 AI：
 
-> 读取 `dev/trellis-local/PATCH-PLAYBOOK.md`，把 local-workflow 收敛为 `skills/ + .trellis/ + dev/` 三段结构。仓库内使用 `skills/` 作为真实技能源，安装时同步到目标项目根目录 `skills/`。删除 `.trellis/scripts/`、`project/.trellis/` 和 `.trellis/.template-hashes.json`。任务目录使用 `prd.md`、按需使用 `plan.md`、并维护 `notes.md`。`notes.md` 同时承担状态、验证和交接。`executing-plans` 和 `subagent-driven-development` 作为可选执行技能，接受 `prd.md`、`plan.md` 或用户提供的任务文档。真正开始改代码前先做 `before-dev`，代码改完后做 `check-dev`。安装与更新统一从根目录 `skills/` 与 `.trellis/` 同步；同步 `.trellis/` 时使用 `dev/trellis-local/rsync-excludes.txt` 排除开发者本地状态与临时文件。修改文件必须使用 `apply_patch`。不要生成测试脚本，不要执行编译。完成后只做文档中列出的轻量验证。
+> 读取 `dev/trellis-local/PATCH-PLAYBOOK.md`，把 local-workflow 收敛为 `skills/ + .trellis/ + dev/` 三段结构。仓库内使用 `skills/` 作为真实技能源，安装时同步到目标项目根目录 `skills/`。删除 `.trellis/scripts/`、`project/.trellis/` 和 `.trellis/.template-hashes.json`。任务目录使用 `prd.md`、按需使用 `plan.md`、并维护 `notes.md`。`notes.md` 同时承担状态、验证和交接。`executing-plans` 和 `subagent-driven-development` 作为可选执行技能，接受 `prd.md`、`plan.md` 或用户提供的任务文档。真正开始改代码前先做 `before-dev`，代码改完后做 `check-dev`。安装与更新统一从根目录 `skills/` 与 `.trellis/` 同步；同步 `.trellis/` 时使用 `dev/trellis-local/rsync-excludes.txt` 排除临时文件。修改文件必须使用 `apply_patch`。不要生成测试脚本，不要执行编译。完成后只做文档中列出的轻量验证。

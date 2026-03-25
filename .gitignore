@@ -1,1 +1,3 @@
-.trellis/.developer
+.ace-tool/
+!.trellis/
+.trellis/tasks/

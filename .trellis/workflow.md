@@ -13,7 +13,6 @@
 
 ```text
 .trellis/
-|-- .developer
 |-- workflow.md
 |-- spec/
 |   |-- frontend/
@@ -74,9 +73,8 @@
 4. 运行：
    - `git status`
    - `git log --oneline -10`
-5. 阅读 `.trellis/.developer`
-6. 在 `.trellis/tasks/` 下找到当前活跃的任务目录
-7. 若 `.trellis/spec/` 仍主要是模板内容，且 `00-bootstrap-guidelines` 未完成，优先处理该任务
+5. 在 `.trellis/tasks/` 下找到当前活跃的任务目录
+6. 若 `.trellis/spec/` 仍主要是模板内容，且 `00-bootstrap-guidelines` 未完成，优先处理该任务
 
 ---
 

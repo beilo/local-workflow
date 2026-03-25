@@ -41,7 +41,7 @@ Use rsync --delete only when explicitly asked to force the target project to mir
 
 - `~/local-workflow/dev/trellis-local/rsync-excludes.txt`
 
-这份排除清单用于过滤开发者本地状态与临时文件。
+这份排除清单用于过滤临时文件。
 
 ---
 
@@ -141,7 +141,7 @@ rsync -a --delete ~/local-workflow/skills/ /path/to/target-project/skills/
 rsync -a --delete --exclude-from ~/local-workflow/dev/trellis-local/rsync-excludes.txt ~/local-workflow/.trellis/ /path/to/target-project/.trellis/
 ```
 
-即便是 force mirror，也必须继续使用排除清单，避免把开发者本地状态同步出去。
+即便是 force mirror，也必须继续使用排除清单，避免把临时文件同步出去。
 
 ---
 
@@ -156,7 +156,6 @@ rsync -a --delete --exclude-from ~/local-workflow/dev/trellis-local/rsync-exclud
 - 根目录 `skills/` 只放会被分发到目标项目的项目内技能源。
 - 根目录 `.trellis/` 只放会被分发到目标项目的基线文件。
 - 本仓库私有说明、补丁手册和分发辅助文件必须留在 `~/local-workflow/dev/`，不得同步进目标项目。
-- `.trellis/.developer` 属于开发者本地状态，不得同步进目标项目。
 
 ---
 
@@ -171,7 +170,6 @@ find /path/to/target-project/.trellis -maxdepth 2 -type f | sort
 
 - 目标项目根目录里存在 `skills/start/SKILL.md`
 - 目标项目根目录里存在 `.trellis/`
-- 目标项目 `.trellis/` 中没有开发者本地状态文件
 
 首次安装完成后，优先处理：
 

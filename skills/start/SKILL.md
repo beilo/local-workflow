@@ -15,17 +15,7 @@ description: "开始会话"
 
 - `.trellis/workflow.md`
 
-### 2. 解析开发者身份
-
-阅读 `.trellis/.developer`。
-
-若缺失，请手动按以下格式创建：
-
-```text
-name=<开发者名称>
-```
-
-### 3. 阅读项目上下文
+### 2. 阅读项目上下文
 
 运行：
 

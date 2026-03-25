@@ -13,10 +13,9 @@
 
 - `skills/` 是仓库内的真实技能源，安装后位于目标项目根目录 `skills/`
 - `skills/` 与 `.trellis/` 作为同一套项目基线一起安装、一起更新
-- `.trellis/` 直接通过 `rsync` 合并到目标项目，并使用 `dev/trellis-local/rsync-excludes.txt` 排除开发者本地状态与临时文件
+- `.trellis/` 直接通过 `rsync` 合并到目标项目，并使用 `dev/trellis-local/rsync-excludes.txt` 排除临时文件
 - 不再维护 `project/.trellis/` 这类发布副本
 - 本地私有说明、补丁手册和分发辅助文件统一放在 `dev/` 目录，不进入目标项目
-- `.trellis/.developer` 属于开发者本地状态，不进入目标项目
 
 ## 给 AI 的单入口
 
