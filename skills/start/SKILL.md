@@ -28,7 +28,7 @@ description: "开始会话"
 - `.trellis/spec/backend/index.md`
 - `.trellis/spec/guides/index.md`
 
-查看 `.trellis/tasks/`，确定用户要处理的任务目录。
+查看 `.trellis/tasks/`，确定用户要处理的任务目录。**`.trellis/archive/` 为已归档目录，跳过，不读取**。
 
 若 `spec/` 仍主要是模板内容，且 `00-bootstrap-guidelines` 未完成，优先把它视为当前任务。
 

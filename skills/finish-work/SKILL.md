@@ -15,15 +15,17 @@ description: "收尾工作 - 提交前检查清单"
 
 ### 1. 代码质量
 
+> 使用 `before-dev` 阶段写入 `notes.md` 中记录的包管理器（如 `pnpm` / `npm` / `yarn` / `bun`）运行以下命令：
+
 ```bash
-# 必须通过
-pnpm lint
-pnpm type-check
-pnpm test
+# 用项目实际的包管理器替换 <pm>
+<pm> lint
+<pm> type-check  # 或 <pm> run tsc --noEmit，视项目而定
+<pm> test
 ```
 
-- [ ] `pnpm lint` 零错误通过？
-- [ ] `pnpm type-check` 无类型错误？
+- [ ] lint 零错误通过？
+- [ ] type-check 无类型错误？
 - [ ] 测试通过？
 - [ ] 无 `console.log`（应使用 logger）？
 - [ ] 无非空断言（`x!` 运算符）？
@@ -96,8 +98,8 @@ pnpm test
 ## 快速检查流程
 
 ```bash
-# 1. 代码检查
-pnpm lint && pnpm type-check
+# 1. 代码检查（用 notes.md 中记录的包管理器替换 <pm>）
+<pm> lint && <pm> type-check
 
 # 2. 查看改动
 git status
@@ -136,6 +138,17 @@ git diff --name-only
 - `$finish-work` - 检查工作完整性（本技能）
 
 ---
+
+## 7. 任务归档
+
+当以下条件均满足时，提示用户运行归档命令：
+
+- [ ] `notes.md` 已记录最终状态与提交信息？
+- [ ] 代码已提交？
+
+若均满足，将任务目录移入 archive：
+
+> 归档后 `archive/` 能被 git 追踪但不再被 AI 会话自动扫描，有效降低上下文噪音。
 
 ## 核心原则
 

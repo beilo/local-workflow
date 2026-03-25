@@ -19,10 +19,12 @@
 |   |-- backend/
 |   +-- guides/
 |-- tasks/
-|   +-- <task-name>/
+|   +-- <task-name>/          # 活跃任务
 |       |-- prd.md
 |       |-- notes.md
 |       +-- plan.md
++-- archive/                  # 已归档任务（只读参考）
+    +-- <task-name>/
 ```
 
 ### 文件职责
@@ -140,6 +142,32 @@
 
 ---
 
+## 任务归档
+
+### 归档时机
+
+任务满足以下**任一**条件时，应将其归档：
+
+- 已提交且 `notes.md` 中记录了最终状态与提交信息
+- 任务已被放弃，不再推进
+- 任务目录在当前会话中不再相关，且距创建已超过合理周期
+
+### 归档操作
+
+```bash
+# 将完成的任务移入 .trellis/archive/
+mv .trellis/tasks/<task-name> .trellis/archive/<task-name>
+```
+
+### 归档规则
+
+- `archive/` 中的任务为**只读参考**，不再修改
+- AI 会话开始时**跳过** `archive/`，不纳入上下文扫描
+- 若需回溯历史决策，可手动指定 `archive/<task-name>/notes.md` 路径
+- `archive/` 目录本身受 git 追踪，保留完整历史
+
+---
+
 ## 最佳实践
 
 1. 写代码前先读 spec
@@ -148,3 +176,4 @@
 4. 保持 `notes.md` 简短且为最新
 5. 用 `notes.md` 承担状态、验证与交接
 6. 优先用简单 shell 查看，而非自定义编排
+7. **已完成的任务及时归档**，保持 `tasks/` 根目录只有活跃任务
