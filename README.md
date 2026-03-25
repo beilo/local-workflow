@@ -4,14 +4,15 @@
 
 ## 结构
 
-- `skills/`：公开分发的全局技能源；安装时通过 symlink 挂到 `~/.agents/skills/local-workflow`
+- `skills/`：唯一维护、唯一分发的项目内技能源；安装时合并到目标项目根目录 `skills/`
 - `.trellis/`：唯一维护、唯一分发的项目工作流基线
 - `dev/trellis-local/`：本仓库私有的 Trellis 定制说明、补丁手册与同步排除清单
 - `INSTALL.md`：唯一安装 / 更新入口
 
 ## 设计约束
 
-- `skills/` 是仓库内的真实技能源，不再通过仓库内 symlink 包装
+- `skills/` 是仓库内的真实技能源，安装后位于目标项目根目录 `skills/`
+- `skills/` 与 `.trellis/` 作为同一套项目基线一起安装、一起更新
 - `.trellis/` 直接通过 `rsync` 合并到目标项目，并使用 `dev/trellis-local/rsync-excludes.txt` 排除开发者本地状态与临时文件
 - 不再维护 `project/.trellis/` 这类发布副本
 - 本地私有说明、补丁手册和分发辅助文件统一放在 `dev/` 目录，不进入目标项目
@@ -27,14 +28,15 @@ Fetch and follow instructions from https://raw.githubusercontent.com/beilo/local
 
 该入口会先检测当前项目状态，再自动决定走 install 还是 update：
 
-- 2 个 marker 都存在：update
-- 2 个 marker 都不存在：install
+- 3 个 marker 都存在：update
+- 3 个 marker 都不存在：install
 - marker 只存在一部分：停止并报告状态异常
 
 检测 marker：
 
 - `.trellis/.version`
 - `.trellis/workflow.md`
+- `skills/start/SKILL.md`
 
 ## 首次接入后
 

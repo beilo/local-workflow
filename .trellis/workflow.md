@@ -95,9 +95,9 @@
 
 参考模板（安装路径）：
 
-- `~/.agents/skills/local-workflow/start/assets/prd-template.md`
-- `~/.agents/skills/local-workflow/start/assets/notes-template.md`
-- `~/.agents/skills/local-workflow/writing-plans/assets/plan-template.md`
+- `skills/start/assets/prd-template.md`
+- `skills/start/assets/notes-template.md`
+- `skills/writing-plans/assets/plan-template.md`
 
 ---
 

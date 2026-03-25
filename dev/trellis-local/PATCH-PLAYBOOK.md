@@ -6,7 +6,7 @@
 目标是把 local-workflow 收敛为：
 
 - 仓库内使用 `skills/` 作为真实技能源
-- 安装时仍分发到 `~/.agents/skills/local-workflow`
+- 安装时分发到目标项目根目录 `skills/`
 - 只维护一份根目录 `.trellis/`
 - 通过文件驱动任务管理
 - 不再使用 `.trellis/scripts/`
@@ -82,9 +82,10 @@
 
 ### 分发规则
 
-- 根目录 `.trellis/` 是唯一分发源
-- 安装与更新统一从 `~/local-workflow/.trellis/` 同步
-- 同步时统一使用 `~/local-workflow/dev/trellis-local/rsync-excludes.txt`
+- 根目录 `skills/` 与 `.trellis/` 是分发源
+- 安装与更新统一从 `~/local-workflow/skills/` 同步到目标项目 `skills/`
+- 安装与更新统一从 `~/local-workflow/.trellis/` 同步到目标项目 `.trellis/`
+- 同步 `.trellis/` 时统一使用 `~/local-workflow/dev/trellis-local/rsync-excludes.txt`
 - `dev/` 内的私有说明与辅助文件不得同步进目标项目
 
 ---
@@ -207,8 +208,9 @@
 
 安装与更新统一改为：
 
+- 从 `~/local-workflow/skills/` 同步到目标项目 `skills/`
 - 从 `~/local-workflow/.trellis/` 同步到目标项目 `.trellis/`
-- 使用 `~/local-workflow/dev/trellis-local/rsync-excludes.txt` 排除开发者本地状态与临时文件
+- 同步 `.trellis/` 时使用 `~/local-workflow/dev/trellis-local/rsync-excludes.txt` 排除开发者本地状态与临时文件
 
 ### 六、实际文件状态
 
@@ -256,8 +258,9 @@
 
 确认分发规则一致：
 
-- `INSTALL.md` 只从根目录 `.trellis/` 同步
-- 同步命令使用 `rsync-excludes.txt`
+- `INSTALL.md` 同时同步 `skills/` 与 `.trellis/`
+- `.trellis/` 同步命令使用 `rsync-excludes.txt`
+- 不再依赖全局 `~/.agents/skills/local-workflow`
 - `dev/` 内容不进入目标项目
 
 ---
@@ -266,4 +269,4 @@
 
 以后如果要恢复或重放这次改造，直接把下面这段话发给 AI：
 
-> 读取 `dev/trellis-local/PATCH-PLAYBOOK.md`，把 local-workflow 收敛为 `skills/ + .trellis/ + dev/` 三段结构。仓库内使用 `skills/` 作为真实技能源，安装时仍通过 `~/.agents/skills/local-workflow` 暴露给 Codex。删除 `.trellis/scripts/`、`project/.trellis/` 和 `.trellis/.template-hashes.json`。任务目录使用 `prd.md`、按需使用 `plan.md`、并维护 `notes.md`。`notes.md` 同时承担状态、验证和交接。`executing-plans` 和 `subagent-driven-development` 作为可选执行技能，接受 `prd.md`、`plan.md` 或用户提供的任务文档。真正开始改代码前先做 `before-dev`，代码改完后做 `check-dev`。安装与更新统一从根目录 `.trellis/` 同步，并使用 `dev/trellis-local/rsync-excludes.txt` 排除开发者本地状态与临时文件。修改文件必须使用 `apply_patch`。不要生成测试脚本，不要执行编译。完成后只做文档中列出的轻量验证。
+> 读取 `dev/trellis-local/PATCH-PLAYBOOK.md`，把 local-workflow 收敛为 `skills/ + .trellis/ + dev/` 三段结构。仓库内使用 `skills/` 作为真实技能源，安装时同步到目标项目根目录 `skills/`。删除 `.trellis/scripts/`、`project/.trellis/` 和 `.trellis/.template-hashes.json`。任务目录使用 `prd.md`、按需使用 `plan.md`、并维护 `notes.md`。`notes.md` 同时承担状态、验证和交接。`executing-plans` 和 `subagent-driven-development` 作为可选执行技能，接受 `prd.md`、`plan.md` 或用户提供的任务文档。真正开始改代码前先做 `before-dev`，代码改完后做 `check-dev`。安装与更新统一从根目录 `skills/` 与 `.trellis/` 同步；同步 `.trellis/` 时使用 `dev/trellis-local/rsync-excludes.txt` 排除开发者本地状态与临时文件。修改文件必须使用 `apply_patch`。不要生成测试脚本，不要执行编译。完成后只做文档中列出的轻量验证。

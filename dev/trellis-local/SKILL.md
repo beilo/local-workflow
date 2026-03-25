@@ -19,9 +19,9 @@ Trellis 版本：0.3.7
 #### skills 目录
 
 - **文件**：`skills/`
-- **改动**：将仓库内技能源从 `.agents/skills/` 收敛到 `skills/`
-- **日期**：2026-03-23
-- **原因**：仓库目录直接对应分发源；安装时仍通过 `~/.agents/skills/local-workflow` 暴露给 Codex
+- **改动**：将仓库内技能源收敛到 `skills/`，并安装到目标项目根目录 `skills/`
+- **日期**：2026-03-25
+- **原因**：让仓库布局与安装布局保持一致，并避免全局 skills 与项目 `.trellis/` 版本漂移
 
 #### `.trellis/` 分发方式
 
@@ -215,3 +215,9 @@ Trellis 版本：0.3.7
 - 新增 `dev/trellis-local/rsync-excludes.txt`
 - 安装与更新改为直接从根目录 `.trellis/` 同步
 - 补强 `00-bootstrap-guidelines` 作为首次接入优先任务
+
+### 2026-03-25
+
+- 将 `skills` 从全局安装改为同步到目标项目根目录 `skills/`
+- 安装与更新改为同时同步 `skills/` 与 `.trellis/`
+- 工作流模板路径改为项目内相对路径

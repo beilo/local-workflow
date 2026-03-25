@@ -14,15 +14,18 @@
 ```text
 Fetch and follow instructions from https://raw.githubusercontent.com/beilo/local-workflow/refs/heads/master/INSTALL.md.
 First detect whether the current project already has local-workflow installed.
-Use these markers in the project root for detection: .trellis/.version and .trellis/workflow.md.
-If both markers exist, run the update flow.
-If both markers are missing, run the install flow.
-If only one marker exists, stop and report an inconsistent local-workflow state instead of guessing.
+Use these markers in the project root for detection: .trellis/.version, .trellis/workflow.md, and skills/start/SKILL.md.
+If all markers exist, run the update flow.
+If all markers are missing, run the install flow.
+If only part of the markers exist, stop and report an inconsistent local-workflow state instead of guessing.
+Never create or rely on a global ~/.agents/skills/local-workflow symlink.
+When syncing skills, merge ~/local-workflow/skills/ into the target project's skills/ directory.
 When syncing .trellis, always use the rsync exclude file at ~/local-workflow/dev/trellis-local/rsync-excludes.txt.
-When running update, always run a dry-run first with rsync -ani and report which files would change before running the real sync.
+When running update, always run a dry-run first for both skills/ and .trellis/ with rsync -ani and report which files would change before running the real sync.
+Never delete the target project's skills directory as part of a normal update.
 Never delete the target project's .trellis directory as part of a normal update.
-Never use rsync --delete for a normal update.
-Use rsync --delete only when explicitly asked to force the target project to mirror ~/local-workflow/.trellis exactly, while still honoring the rsync exclude file.
+Never use rsync --delete for a normal update on either skills/ or .trellis/.
+Use rsync --delete only when explicitly asked to force the target project to mirror ~/local-workflow/skills and ~/local-workflow/.trellis exactly, while still honoring the rsync exclude file for .trellis.
 ```
 
 ---
@@ -31,8 +34,8 @@ Use rsync --delete only when explicitly asked to force the target project to mir
 
 本仓库只保留两份可分发源：
 
-- `~/local-workflow/skills/`：Codex 的全局技能源
-- `~/local-workflow/.trellis/`：合并到目标项目根目录的项目基线
+- `~/local-workflow/skills/`：合并到目标项目根目录 `skills/` 的项目内技能源
+- `~/local-workflow/.trellis/`：合并到目标项目根目录 `.trellis/` 的项目基线
 
 同步 `.trellis/` 时，统一使用：
 
@@ -44,22 +47,23 @@ Use rsync --delete only when explicitly asked to force the target project to mir
 
 ## 检测规则
 
-只有目标项目根目录同时存在下面两个 marker，才视为已安装：
+只有目标项目根目录同时存在下面三个 marker，才视为已安装：
 
 - `.trellis/.version`
 - `.trellis/workflow.md`
+- `skills/start/SKILL.md`
 
 判定表：
 
-- 两个 marker 都存在 → update
-- 两个 marker 都不存在 → install
+- 三个 marker 都存在 → update
+- 三个 marker 都不存在 → install
 - 只存在一部分 → 停止，并报告 local-workflow 状态不一致，不要猜测
 
 ---
 
 ## 首次安装流程
 
-仅当两个 marker 都不存在时使用。
+仅当三个 marker 都不存在时使用。
 
 1. 克隆仓库：
 
@@ -67,11 +71,11 @@ Use rsync --delete only when explicitly asked to force the target project to mir
    git clone https://github.com/beilo/local-workflow.git ~/local-workflow
    ```
 
-2. 一次性创建全局 skills symlink：
+2. 将 `skills/` 合并到目标项目根目录：
 
    ```bash
-   mkdir -p ~/.agents/skills
-   ln -s ~/local-workflow/skills ~/.agents/skills/local-workflow
+   mkdir -p /path/to/target-project/skills
+   rsync -a ~/local-workflow/skills/ /path/to/target-project/skills/
    ```
 
 3. 将 `.trellis/` 合并到目标项目根目录：
@@ -81,16 +85,16 @@ Use rsync --delete only when explicitly asked to force the target project to mir
    rsync -a --exclude-from ~/local-workflow/dev/trellis-local/rsync-excludes.txt ~/local-workflow/.trellis/ /path/to/target-project/.trellis/
    ```
 
-4. 重启 Codex，使新 skills 被重新发现。
+4. 重启 Codex，使项目内 skills 被重新发现。
 
 这是基于合并的安装流程。
-正常安装不需要先删除目标项目现有的 `.trellis/`。
+正常安装不需要先删除目标项目现有的 `skills/` 与 `.trellis/`。
 
 ---
 
 ## 更新流程
 
-仅当两个 marker 都已存在时使用。
+仅当三个 marker 都已存在时使用。
 
 1. 更新 local-workflow 仓库：
 
@@ -98,17 +102,25 @@ Use rsync --delete only when explicitly asked to force the target project to mir
    cd ~/local-workflow && git pull
    ```
 
-2. 保持已有的 skills symlink 不变。
+2. 先对 `skills/` 执行 dry-run：
 
-   若 `~/.agents/skills/local-workflow` 已经指向 `~/local-workflow/skills`，不需要任何操作。
+   ```bash
+   rsync -ani ~/local-workflow/skills/ /path/to/target-project/skills/
+   ```
 
-3. 先执行 dry-run：
+3. 再对 `.trellis/` 执行 dry-run：
 
    ```bash
    rsync -ani --exclude-from ~/local-workflow/dev/trellis-local/rsync-excludes.txt ~/local-workflow/.trellis/ /path/to/target-project/.trellis/
    ```
 
-4. 再把最新 `.trellis/` 合并到目标项目：
+4. 再把最新 `skills/` 合并到目标项目：
+
+   ```bash
+   rsync -a ~/local-workflow/skills/ /path/to/target-project/skills/
+   ```
+
+5. 再把最新 `.trellis/` 合并到目标项目：
 
    ```bash
    rsync -a --exclude-from ~/local-workflow/dev/trellis-local/rsync-excludes.txt ~/local-workflow/.trellis/ /path/to/target-project/.trellis/
@@ -122,9 +134,10 @@ Use rsync --delete only when explicitly asked to force the target project to mir
 
 默认更新不要使用 `--delete`。
 
-只有在你明确要让目标项目 `.trellis/` 精确镜像 `~/local-workflow/.trellis/`，并且已经确认没有项目本地内容需要保留时，才使用：
+只有在你明确要让目标项目 `skills/` 与 `.trellis/` 精确镜像分发源，并且已经确认没有项目本地内容需要保留时，才使用：
 
 ```bash
+rsync -a --delete ~/local-workflow/skills/ /path/to/target-project/skills/
 rsync -a --delete --exclude-from ~/local-workflow/dev/trellis-local/rsync-excludes.txt ~/local-workflow/.trellis/ /path/to/target-project/.trellis/
 ```
 
@@ -137,8 +150,10 @@ rsync -a --delete --exclude-from ~/local-workflow/dev/trellis-local/rsync-exclud
 - 已安装项目上，禁止再跑 install。
 - 未安装项目上，禁止直接跑 update。
 - marker 只存在一部分时，必须先停下并报告异常状态。
+- 正常 update 期间，禁止删除目标项目整个 `skills/` 目录。
 - 正常 update 期间，禁止删除目标项目整个 `.trellis/` 目录。
-- 正常 update 期间，禁止使用 `rsync --delete`。
+- 正常 update 期间，禁止对 `skills/` 或 `.trellis/` 使用 `rsync --delete`。
+- 根目录 `skills/` 只放会被分发到目标项目的项目内技能源。
 - 根目录 `.trellis/` 只放会被分发到目标项目的基线文件。
 - 本仓库私有说明、补丁手册和分发辅助文件必须留在 `~/local-workflow/dev/`，不得同步进目标项目。
 - `.trellis/.developer` 属于开发者本地状态，不得同步进目标项目。
@@ -148,13 +163,13 @@ rsync -a --delete --exclude-from ~/local-workflow/dev/trellis-local/rsync-exclud
 ## 验证
 
 ```bash
-ls -ld ~/.agents/skills/local-workflow
+find /path/to/target-project/skills -maxdepth 2 -type f | sort
 find /path/to/target-project/.trellis -maxdepth 2 -type f | sort
 ```
 
 你应当看到：
 
-- `~/.agents/skills/local-workflow` 正确指向 `~/local-workflow/skills`
+- 目标项目根目录里存在 `skills/start/SKILL.md`
 - 目标项目根目录里存在 `.trellis/`
 - 目标项目 `.trellis/` 中没有开发者本地状态文件
 
@@ -169,8 +184,16 @@ find /path/to/target-project/.trellis -maxdepth 2 -type f | sort
 ## 卸载
 
 ```bash
-rm ~/.agents/skills/local-workflow
 rm -rf /path/to/target-project/.trellis
+rm -rf /path/to/target-project/skills/start
+rm -rf /path/to/target-project/skills/brainstorm
+rm -rf /path/to/target-project/skills/before-dev
+rm -rf /path/to/target-project/skills/check-dev
+rm -rf /path/to/target-project/skills/finish-work
+rm -rf /path/to/target-project/skills/writing-plans
+rm -rf /path/to/target-project/skills/executing-plans
+rm -rf /path/to/target-project/skills/subagent-driven-development
+rmdir /path/to/target-project/skills 2>/dev/null || true
 ```
 
 若还要删掉本地 clone：
