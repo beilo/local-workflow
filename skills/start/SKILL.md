@@ -54,12 +54,13 @@ description: "开始会话"
 
 ### 需求较重流程
 
-1. 使用 `$brainstorm`
-2. 如需，使用 `$writing-plans` 创建 `plan.md`
-3. 再任选其一：
+1. 使用 `$brainstorm`，将需求收敛到 `prd.md`
+2. 完成 PRD 自审，并让用户确认书面需求
+3. 如需，使用 `$writing-plans` 创建 `plan.md`
+4. 再任选其一：
    - 默认轻量单会话实现
    - `$executing-plans`
-   - `$subagent-driven-development`
+   - `$subagent-driven-development`（仅在任务可清晰拆分时）
 
 ## 可选执行类技能
 
@@ -78,10 +79,12 @@ description: "开始会话"
 
 - 简单的 `prd.md` 可直接执行
 - 复杂的 `prd.md` 应先转为 `plan.md`
+- 若 `plan.md` 已写完，先确认执行方式，再开始改代码
 - 开始改代码前，执行 `before-dev`
 - 代码改完后，执行 `check-dev`
 
 ## 文件边界
 
 - `prd.md` → 目标、范围、验收标准、约束
+- `plan.md` → 执行顺序、涉及文件、验证点、停止条件 / 风险
 - `notes.md` → 任务状态、决策、涉及文件、风险、下一步、交接、验证、提交信息

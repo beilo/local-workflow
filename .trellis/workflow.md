@@ -45,6 +45,7 @@
 - 实施步骤
 - 涉及文件
 - 验证点
+- 停止条件
 - 风险备注
 
 #### `notes.md`
@@ -117,12 +118,12 @@
 ### 需求较重流程
 
 1. `$start`
-2. `$brainstorm` -> 将需求落到 `prd.md`
+2. `$brainstorm` -> 将需求落到 `prd.md`，完成内联自审并让用户确认
 3. 如需，使用 `$writing-plans` 编写 `plan.md`
 4. 选择执行方式：
-   - 默认单会话实现
+   - 默认轻量单会话实现
    - 可选 `$executing-plans`
-   - 可选 `$subagent-driven-development`
+   - 可选 `$subagent-driven-development`（仅在任务可清晰拆分时）
 
 ## 执行类文档规则
 
@@ -137,6 +138,7 @@
 - 若文档已可直接执行，则从中直接执行
 - 若是简单的 `prd.md`，可推导最小检查清单并直接执行
 - 若是复杂的 `prd.md`，先编写 `plan.md`
+- 若 `plan.md` 已写完，先确认执行方式，再开始改代码
 - 开始改代码前，运行 `before-dev`
 - 代码改动结束后，运行 `check-dev`
 
@@ -177,3 +179,4 @@ mv .trellis/tasks/<task-name> .trellis/archive/<task-name>
 5. 用 `notes.md` 承担状态、验证与交接
 6. 优先用简单 shell 查看，而非自定义编排
 7. **已完成的任务及时归档**，保持 `tasks/` 根目录只有活跃任务
+8. `prd.md` / `plan.md` 成稿后先做内联自审，清掉占位符与歧义，再进入执行
