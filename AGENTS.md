@@ -11,7 +11,6 @@
 使用 `@/.trellis/` 了解：
 - 开发工作流（`workflow.md`）
 - 项目结构指南（`spec/`）
-- 开发者工作区（`workspace/`）
 
 请保留本托管块，以便 `trellis update` 能刷新说明。
 
