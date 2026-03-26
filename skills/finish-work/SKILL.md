@@ -46,6 +46,18 @@ description: "收尾工作 - 提交前检查清单"
 
 若答是 → 更新相关 code-spec 文档。
 
+### 2.2. 任务文档与实现对账
+
+无论本次是直接实现、`$executing-plans` 还是 `$subagent-driven-development`，都要核对：
+
+- [ ] 当前实现是否仍符合 `prd.md` 的目标、范围与验收标准？
+- [ ] 若存在 `plan.md`，实现是否仍符合计划中的执行边界？
+- [ ] 若执行中发生偏差，是否已回写到 `prd.md` / `plan.md` / `notes.md`？
+- [ ] `notes.md` 是否写清本次执行方式、来源文档、当前结论与下一步？
+
+**阻塞规则**：
+若代码已经偏离任务文档，而文档与 `notes.md` 仍保持旧状态，则**不得收尾**。先完成文档对账。
+
 ### 2.5. 代码-Spec 硬门槛（基础设施/跨层）
 
 若改动触及基础设施或跨层契约，以下为阻塞项：
@@ -93,6 +105,14 @@ description: "收尾工作 - 提交前检查清单"
 - [ ] 已测错误状态？
 - [ ] 刷新页面后仍正常？
 
+### 6.5. 子代理 / 多步骤执行收口
+
+若本次使用了 `$executing-plans` 或 `$subagent-driven-development`，额外检查：
+
+- [ ] `notes.md` 已记录各阶段或各子代理的产出？
+- [ ] 主会话已统一复核所有回报，而不是直接照单全收？
+- [ ] 子代理引入的计划偏差、遗漏验证或遗留风险已被集中记录？
+
 ---
 
 ## 快速检查流程
@@ -105,7 +125,12 @@ description: "收尾工作 - 提交前检查清单"
 git status
 git diff --name-only
 
-# 3. 根据改动文件，核对上文相关项
+# 3. 核对任务文档与 notes
+sed -n '1,220p' .trellis/tasks/<task>/prd.md
+sed -n '1,260p' .trellis/tasks/<task>/plan.md   # 若存在
+sed -n '1,260p' .trellis/tasks/<task>/notes.md
+
+# 4. 根据改动文件，核对上文相关项
 ```
 
 ---
@@ -116,6 +141,7 @@ git diff --name-only
 |-----------|-------------|-------|
 | 未更新 code-spec | 他人不知道改动 | 检查 .trellis/spec/ |
 | Spec 仅抽象描述 | 基础设施/跨层改动易回归 | 要求签名/契约/矩阵/案例/测试 |
+| 代码偏离 PRD / plan | 后续接手者误判真实状态 | 对账 `prd.md` / `plan.md` / `notes.md` |
 | 未创建迁移 | schema 不同步 | 检查 db/migrations/ |
 | 类型未同步 | 运行时错误 | 检查共享类型 |
 | 测试未更新 | 虚假信心 | 跑完整测试套件 |
@@ -136,6 +162,8 @@ git diff --name-only
 ```
 
 - `$finish-work` - 检查工作完整性（本技能）
+- `$executing-plans` - 单会话按文档推进，并在检查点更新 `notes.md`
+- `$subagent-driven-development` - 子代理并行推进，但必须由主会话统一收口
 
 ---
 
