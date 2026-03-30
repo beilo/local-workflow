@@ -19,9 +19,9 @@ Trellis 版本：0.3.7
 #### skills 目录
 
 - **文件**：`skills/`
-- **改动**：将仓库内技能源收敛到 `skills/`，并安装到目标项目根目录 `skills/`
-- **日期**：2026-03-25
-- **原因**：让仓库布局与安装布局保持一致，并避免全局 skills 与项目 `.trellis/` 版本漂移
+- **改动**：将仓库内技能源收敛到 `skills/`，并同步到目标项目 `.agents/skills/`
+- **日期**：2026-03-30
+- **原因**：仓库内继续保持单一分发源，同时对齐 Codex 对目标项目 `.agents/skills/` 的发现机制，避免源目录与安装落点漂移
 
 #### `.trellis/` 分发方式
 
@@ -218,6 +218,13 @@ Trellis 版本：0.3.7
 
 ### 2026-03-25
 
-- 将 `skills` 从全局安装改为同步到目标项目根目录 `skills/`
+- 将 `skills` 从全局安装改为同步到目标项目内目录
 - 安装与更新改为同时同步 `skills/` 与 `.trellis/`
 - 工作流模板路径改为项目内相对路径
+
+### 2026-03-30
+
+- 将 `skills` 的安装目标进一步收口到目标项目 `.agents/skills/`
+- 安装检测 marker 同步调整为 `.agents/skills/start/SKILL.md`
+- 对齐 `README.md`、`INSTALL.md`、`PATCH-PLAYBOOK.md` 与 `trellis-local/SKILL.md` 的分发说明
+- 明确仓库分发源与目标项目安装落点的路径映射：`skills/ -> .agents/skills/`

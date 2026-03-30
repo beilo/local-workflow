@@ -4,15 +4,16 @@
 
 ## 结构
 
-- `skills/`：唯一维护、唯一分发的项目内技能源；安装时合并到目标项目根目录 `skills/`
+- `skills/`：仓库内唯一维护、唯一分发的 skills 源目录；安装时同步到目标项目 `.agents/skills/`
 - `.trellis/`：唯一维护、唯一分发的项目工作流基线
 - `dev/trellis-local/`：本仓库私有的 Trellis 定制说明、补丁手册与同步排除清单
 - `INSTALL.md`：唯一安装 / 更新入口
 
 ## 设计约束
 
-- `skills/` 是仓库内的真实技能源，安装后位于目标项目根目录 `skills/`
+- `skills/` 是仓库内的真实分发源，安装时会同步到目标项目 `.agents/skills/`
 - `skills/` 与 `.trellis/` 作为同一套项目基线一起安装、一起更新
+- 仓库分发源与目标项目安装落点不是同一路径：`skills/ -> .agents/skills/`，`.trellis/ -> .trellis/`
 - `.trellis/` 直接通过 `rsync` 合并到目标项目，并使用 `dev/trellis-local/rsync-excludes.txt` 排除临时文件
 - 不再维护 `project/.trellis/` 这类发布副本
 - 本地私有说明、补丁手册和分发辅助文件统一放在 `dev/` 目录，不进入目标项目
@@ -39,7 +40,7 @@ Fetch and follow instructions from https://raw.githubusercontent.com/beilo/local
 
 - `.trellis/.version`
 - `.trellis/workflow.md`
-- `skills/start/SKILL.md`
+- `.agents/skills/start/SKILL.md`
 
 ## 首次接入后
 
