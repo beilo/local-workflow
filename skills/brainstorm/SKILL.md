@@ -61,6 +61,12 @@ description: "头脑风暴 - 需求发现（面向 AI 编码增强）"
 
 在 `.trellis/tasks/` 下手动创建任务目录。
 
+目录命名建议：
+
+- 推荐使用单层目录格式：`MM-DD-brief-topic`
+- 例如：`03-31-fix-task-naming`
+- 不要使用 `MM-DD-feat/xxx` 这类多级目录；**原因**：当前任务路径、归档方式与后续执行技能都按 `.trellis/tasks/<task>/` 约定工作
+
 目录至少包含：
 
 - `prd.md`

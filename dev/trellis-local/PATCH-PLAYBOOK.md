@@ -165,6 +165,7 @@
 - 读任务目录
 - 若 `spec/` 仍是模板内容，优先处理 `00-bootstrap-guidelines`
 - 新任务手动创建 `prd.md` 和 `notes.md`
+- 新任务目录统一使用单层命名：`MM-DD-brief-topic`，不要拆成 `MM-DD-feat/xxx`
 - 不再调用任何 `.trellis/scripts/*`
 
 #### `.trellis/workflow.md`
@@ -173,6 +174,7 @@
 
 - 不再出现旧脚本编排
 - 任务改成 `prd.md + plan.md + notes.md`
+- 任务目录命名统一为单层 `MM-DD-brief-topic`
 - `notes.md` 承担状态、验证与交接
 - 若 `spec/` 仍是模板内容，优先处理 `00-bootstrap-guidelines`
 

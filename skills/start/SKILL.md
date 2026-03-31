@@ -36,6 +36,12 @@ description: "开始会话"
 
 在 `.trellis/tasks/` 下手动新建任务目录。
 
+目录命名建议：
+
+- 推荐使用单层目录格式：`MM-DD-brief-topic`
+- 例如：`03-31-fix-task-naming`
+- 不要使用 `MM-DD-feat/xxx` 这类多级目录；**原因**：当前工作流默认任务目录路径是 `.trellis/tasks/<task>/`
+
 最少包含：
 
 - `prd.md` → 使用 `assets/prd-template.md`
